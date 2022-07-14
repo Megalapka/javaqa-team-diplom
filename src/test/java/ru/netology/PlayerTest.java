@@ -30,7 +30,7 @@ public class PlayerTest {
 
     // другие ваши тесты
     @ Test
-    public void shouldSumAllGenre() {
+    public void shouldSumGenre() {
 
         player1.installGame(game1);
         player1.play(game1, 1);
@@ -41,21 +41,48 @@ public class PlayerTest {
         player1.installGame(game3);
         player1.play(game3, 1);
 
-        int expected = 4;
+        int expected = 2;
         int actual = player1.sumGenre(game1.getGenre());
 
         assertEquals(expected, actual);
     }
 
+
     @Test
-    public void shouldPlayerPlayGame() {
-        GameStore store = new GameStore();
-        Game game1 = store.publishGame("Game1", "Genre1");
+    public void shouldInstallGameTwiceWithoutReset() {   //повторная установка игры, игра не должна обнулиться
+        player1.installGame(game1);
+        player1.play(game1, 3);
+        player1.installGame(game1);
 
-        Player player = new Player("Player1");
-        player.installGame(game1);
-        player.play(game1, 1);
+        int expected = 3;
+        int actual = player1.sumGenre(game1.getGenre());
+        assertEquals(expected, actual);
 
+    }
 
+    @Test
+    public void shouldReturnMostPlayedByGenre() {
+        player1.installGame(game1);
+        player1.installGame(game2);
+        player1.installGame(game3);
+        player1.installGame(game4);
+        player1.installGame(game5);
+        player1.installGame(game6);
+
+        player1.play(game1, 1);
+        player1.play(game2, 1);
+        player1.play(game3, 1);
+        player1.play(game4, 1);
+        player1.play(game5, 1);
+        player1.play(game6, 1);
+        player1.play(game2, 2);
+        player1.play(game5, 5);
+
+        // game5 genre2 - 6 часов, для проверки возьмём название его жанра из другой игры
+
+        Game expected = game5;
+        Game actual = player1.mostPlayerByGenre(game2.getGenre());
+
+        assertEquals(expected, actual);
     }
 }
