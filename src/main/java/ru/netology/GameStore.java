@@ -8,6 +8,14 @@ import java.util.Map;
 public class GameStore {
     private List<Game> games = new ArrayList<>();
 
+    public GameStore() {
+    }
+    public GameStore(Map<String, Integer> playedTime) {
+        this.playedTime = playedTime;
+    }
+
+
+
     /**
      * Информация о том, какой игрок сколько играл в игры этого каталога
      * Ключ - имя игрока
@@ -30,7 +38,7 @@ public class GameStore {
      * если игра есть и false иначе
      */
     public boolean containsGame(Game game) {
-        for (int i = 1; i < games.size(); i++) {
+        for (int i = 1; i <= games.size(); i++) {
             if (games.get(i - 1).equals(game)) {
                 return true;
             }
