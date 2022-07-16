@@ -1,6 +1,7 @@
 package ru.netology;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -8,12 +9,16 @@ import java.util.Map;
 
 public class GameStoreTest {
 
+    Player player1 = new Player("Olya");
+    Player player2 = new Player("kolya");
+    Player player3 = new Player("sveta");
+    Player player4 = new Player("katya");
 
     //должен добавлять игру и проверять наличие в каталоге, когда игра уже есть в каталоге
     @Test
     public void shouldAddGame() {
-        GameStore store = new GameStore();
 
+        GameStore store = new GameStore();
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
 
         assertTrue(store.containsGame(game));
@@ -34,11 +39,10 @@ public class GameStoreTest {
     @Test
     public void shouldRegisterTimeWhenNotPlayer() {
 
-        Player player1 = new Player("Olya");
         Map<String, Integer> playedTime = new HashMap<>();
         GameStore store = new GameStore(playedTime);
 
-        store.addPlayTime("olya",3);
+        store.addPlayTime("olya", 3);
 
         assertEquals(3, playedTime.get("olya"));
     }
@@ -47,12 +51,11 @@ public class GameStoreTest {
     @Test
     public void shouldRegisterTimeWhenPlayerPlayGame() {
 
-        Player player1 = new Player("Olya");
         Map<String, Integer> playedTime = new HashMap<>();
         GameStore store = new GameStore(playedTime);
-        playedTime.put("olya", 5);
 
-        store.addPlayTime("olya",3);
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("olya", 3);
 
         assertEquals(8, playedTime.get("olya"));
     }
@@ -61,16 +64,11 @@ public class GameStoreTest {
     @Test
     public void shouldFindPlayer() {
 
-        Player player1 = new Player("Olya");
-        Player player2 = new Player("kolya");
-        Player player3 = new Player("sveta");
-        Player player4 = new Player("katya");
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
-        playedTime.put("olya", 5);
-        playedTime.put("kolya", 5);
-        playedTime.put("sveta", 1);
-        playedTime.put("katya", 10);
+        GameStore store = new GameStore();
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("kolya", 5);
+        store.addPlayTime("sveta", 1);
+        store.addPlayTime("katya", 10);
 
         assertEquals("katya", store.getMostPlayer());
     }
@@ -79,12 +77,7 @@ public class GameStoreTest {
     @Test
     public void shouldFindPlayerWhenMapNull() {
 
-        Player player1 = new Player("Olya");
-        Player player2 = new Player("kolya");
-        Player player3 = new Player("sveta");
-        Player player4 = new Player("katya");
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
+        GameStore store = new GameStore();
 
         assertEquals(null, store.getMostPlayer());
     }
@@ -94,53 +87,38 @@ public class GameStoreTest {
     @Test
     public void shouldFindPlayerWhenNegativeTime() {
 
-        Player player1 = new Player("Olya");
-        Player player2 = new Player("kolya");
-        Player player3 = new Player("sveta");
-        Player player4 = new Player("katya");
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
-        playedTime.put("olya", 5);
-        playedTime.put("kolya", 5);
-        playedTime.put("sveta", -1);
-        playedTime.put("katya", 10);
+        GameStore store = new GameStore();
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("kolya", 5);
+        store.addPlayTime("sveta", -1);
+        store.addPlayTime("katya", 10);
 
         assertEquals("katya", store.getMostPlayer());
     }
 
-    //должен искать имя игрока, когда равное наибольшее время
+    //должен искать имя игрока, когда наибольшее время 1
     @Test
     public void shouldFindPlayerWhenEqualTime() {
 
-        Player player1 = new Player("Olya");
-        Player player2 = new Player("kolya");
-        Player player3 = new Player("sveta");
-        Player player4 = new Player("katya");
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
-        playedTime.put("olya", 4);
-        playedTime.put("kolya", 5);
-        playedTime.put("sveta", 5);
-        playedTime.put("katya",3);
+        GameStore store = new GameStore();
+        store.addPlayTime("olya", 0);
+        store.addPlayTime("kolya", 0);
+        store.addPlayTime("sveta", 0);
+        store.addPlayTime("katya", 1);
 
-//если у двоих игроков одинаковое время, то выводим первого игрока???
-        assertEquals("kolya", store.getMostPlayer());
+        assertEquals("katya", store.getMostPlayer());
     }
 
     //должен суммировать общее количество времени всех игроков
     @Test
     public void shouldSumTime() {
-        Player player1 = new Player("Olya");
-        Player player2 = new Player("kolya");
-        Player player3 = new Player("sveta");
-        Player player4 = new Player("katya");
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
-        playedTime.put("olya", 5);
-        playedTime.put("kolya", 5);
-        playedTime.put("sveta", 1);
-        playedTime.put("katya",3);
 
-        assertEquals(14,store.getSumPlayedTime());
+        GameStore store = new GameStore();
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("kolya", 5);
+        store.addPlayTime("sveta", 1);
+        store.addPlayTime("katya", 3);
+
+        assertEquals(14, store.getSumPlayedTime());
     }
 }
