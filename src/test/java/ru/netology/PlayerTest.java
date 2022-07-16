@@ -1,6 +1,7 @@
 package ru.netology;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
@@ -14,6 +15,7 @@ public class PlayerTest {
     Game game6 = store.publishGame("Game6", "Genre1");
 
     Player player1 = new Player("Player1");
+
     @Test
     public void shouldSumGenreIfOneGame() {
         GameStore store = new GameStore();
@@ -29,7 +31,7 @@ public class PlayerTest {
     }
 
     // другие ваши тесты
-    @ Test
+    @Test
     public void shouldSumGenre() {
 
         player1.installGame(game1);
@@ -43,6 +45,26 @@ public class PlayerTest {
 
         int expected = 2;
         int actual = player1.sumGenre(game1.getGenre());
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSumGenreIfGenreZero() {  //суммируем по жанру, в который не играли
+
+        player1.installGame(game1);
+        player1.play(game1, 1);
+
+        player1.installGame(game2);
+        player1.play(game2, 1);
+
+        player1.installGame(game3);
+        player1.play(game3, 1);
+
+        player1.installGame(game4);
+
+        int expected = 0;
+        int actual = player1.sumGenre(game4.getGenre());
 
         assertEquals(expected, actual);
     }
@@ -61,7 +83,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void shouldReturnMostPlayedByGenre() {
+    public void shouldReturnMostPlayedByGenre() {  //возвращает жанр, в который играли больше всего
         player1.installGame(game1);
         player1.installGame(game2);
         player1.installGame(game3);
