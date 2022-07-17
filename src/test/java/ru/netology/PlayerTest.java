@@ -31,6 +31,21 @@ public class PlayerTest {
     }
 
     // другие ваши тесты
+
+    //суммирует игры, которые только установили, по жанру. Должент быть ноль
+    @Test
+    public void shouldSumGenreWhereGamesNotPlayed() {
+
+        player1.installGame(game1);
+        player1.installGame(game3);
+
+        int expected = 0;
+        int actual = player1.sumGenre(game1.getGenre());
+
+        assertEquals(expected, actual);
+    }
+
+    // Суммирует игры по заданному жанру
     @Test
     public void shouldSumGenre() {
 
@@ -49,8 +64,10 @@ public class PlayerTest {
         assertEquals(expected, actual);
     }
 
+
+    //суммируем по жанру, в который не играли
     @Test
-    public void shouldSumGenreIfGenreZero() {  //суммируем по жанру, в который не играли
+    public void shouldSumGenreIfGenreZero() {
 
         player1.installGame(game1);
         player1.play(game1, 1);
@@ -69,9 +86,9 @@ public class PlayerTest {
         assertEquals(expected, actual);
     }
 
-
+    //повторная установка игры, игра не должна обнулиться
     @Test
-    public void shouldInstallGameTwiceWithoutReset() {   //повторная установка игры, игра не должна обнулиться
+    public void shouldInstallGameTwiceWithoutReset() {
         player1.installGame(game1);
         player1.play(game1, 3);
         player1.installGame(game1);
@@ -106,5 +123,13 @@ public class PlayerTest {
         Game actual = player1.mostPlayerByGenre(game2.getGenre());
 
         assertEquals(expected, actual);
+    }
+    // Попытка сыграть в неустановленную игру
+    @Test
+    public void shouldExceptionForPlayWithoutInstallGame() {
+
+            assertThrows(RuntimeException.class, ()-> {
+            player1.play(game1, 1);
+        });
     }
 }
