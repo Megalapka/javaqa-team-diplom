@@ -99,8 +99,10 @@ public class PlayerTest {
 
     }
 
+
+    //возвращает игру по жанру, в который играли больше всего
     @Test
-    public void shouldReturnMostPlayedByGenre() {  //возвращает жанр, в который играли больше всего
+    public void shouldReturnMostPlayedByGenre() {
         player1.installGame(game1);
         player1.installGame(game2);
         player1.installGame(game3);
@@ -124,6 +126,30 @@ public class PlayerTest {
 
         assertEquals(expected, actual);
     }
+
+
+    //Если в игры этого жанра не играли, возвращается null
+    @Test
+    public void shouldReturnNullIfGameThisGenreNotPlayed() {
+        player1.installGame(game1);
+        player1.installGame(game2);
+        player1.installGame(game3);
+        player1.installGame(game4);
+        player1.installGame(game5);
+        player1.installGame(game6);
+
+        player1.play(game1, 1);
+        player1.play(game3, 1);
+        player1.play(game4, 1);
+        player1.play(game6, 1);
+
+        Game actual = player1.mostPlayerByGenre(game2.getGenre());
+
+        assertEquals(null, actual);
+    }
+
+
+
     // Попытка сыграть в неустановленную игру
     @Test
     public void shouldExceptionForPlayWithoutInstallGame() {
