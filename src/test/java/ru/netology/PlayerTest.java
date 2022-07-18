@@ -18,7 +18,6 @@ public class PlayerTest {
 
     @Test
     public void shouldSumGenreIfOneGame() {
-        GameStore store = new GameStore();
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
 
         Player player = new Player("Petya");
@@ -30,7 +29,14 @@ public class PlayerTest {
         assertEquals(expected, actual);
     }
 
-    // другие ваши тесты
+    // Проверка создания игрока
+    @Test
+    public void shouldPlayerCreated() {
+       Player player = new Player("Dima");
+       assertEquals("Dima", player.getName());
+    }
+
+
 
     //суммирует игры, которые только установили, по жанру. Должент быть ноль
     @Test
