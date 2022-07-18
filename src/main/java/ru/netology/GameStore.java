@@ -10,11 +10,6 @@ public class GameStore {
 
     public GameStore() {
     }
-    public GameStore(Map<String, Integer> playedTime) {
-        this.playedTime = playedTime;
-    }
-
-
 
     /**
      * Информация о том, какой игрок сколько играл в игры этого каталога
