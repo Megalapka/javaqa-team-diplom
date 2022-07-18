@@ -14,57 +14,74 @@ public class GameStoreTest {
     Player player3 = new Player("sveta");
     Player player4 = new Player("katya");
 
-    //должен добавлять игру и проверять наличие в каталоге, когда игра уже есть в каталоге
+    GameStore store = new GameStore();
+
+    //должен добавлять игру и проверять наличие в каталоге
     @Test
     public void shouldAddGame() {
 
-        GameStore store = new GameStore();
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
 
         assertTrue(store.containsGame(game));
     }
 
-    //должен добавлять игру и проверять наличие в каталоге, когда игры нет в каталоге
+    //должен проверять наличие игры, которой нет в каталоге
     @Test
     public void shouldAddGameAndCheckAvailability() {
-        GameStore store = new GameStore();
 
-        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
         Game game1 = new Game("Тетрис", "шутер", store);
 
         assertFalse(store.containsGame(game1));
+    }
+
+    //должен добавлять несколько игр и проверять наличие одной из них в каталоге
+    @Test
+    public void shouldAddSeveralGame() {
+
+        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
+        Game game1 = store.publishGame("Нетология Баттл", "Шутер");
+        Game game2 = store.publishGame("Нетология Онлайн", "Аркады");
+        Game game3 = store.publishGame("Баттл", "Стратегия");
+
+        assertTrue(store.containsGame(game1));
     }
 
     //должен регистрировать время, когда игрок не играл в игру
     @Test
     public void shouldRegisterTimeWhenNotPlayer() {
 
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
-
         store.addPlayTime("olya", 3);
 
-        assertEquals(3, playedTime.get("olya"));
+        assertEquals(3, store.getPlayedTime("olya"));
     }
 
-    //должен регистрировать время, когда игрок уже играл в игру
+    //должен регистрировать время, когда игрок уже играл в игру один раз
     @Test
     public void shouldRegisterTimeWhenPlayerPlayGame() {
-
-        Map<String, Integer> playedTime = new HashMap<>();
-        GameStore store = new GameStore(playedTime);
 
         store.addPlayTime("olya", 5);
         store.addPlayTime("olya", 3);
 
-        assertEquals(8, playedTime.get("olya"));
+        assertEquals(8, store.getPlayedTime("olya"));
+    }
+
+    //должен регистрировать время, когда игрок уже играл в игру несколько раз
+    @Test
+    public void shouldRegisterTimeWhenPlayerPlayGameSeveralOnce() {
+
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("olya", 3);
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("olya", 1);
+        store.addPlayTime("olya", 5);
+
+        assertEquals(19, store.getPlayedTime("olya"));
     }
 
     //должен искать имя игрока, который играл в игры этого каталога дольше всего
     @Test
     public void shouldFindPlayer() {
 
-        GameStore store = new GameStore();
         store.addPlayTime("olya", 5);
         store.addPlayTime("kolya", 5);
         store.addPlayTime("sveta", 1);
@@ -77,9 +94,7 @@ public class GameStoreTest {
     @Test
     public void shouldFindPlayerWhenMapNull() {
 
-        GameStore store = new GameStore();
-
-        assertEquals(null, store.getMostPlayer());
+       assertEquals(null, store.getMostPlayer());
     }
 
     //должен искать имя игрока, который играл в игры этого каталога больше всего,
@@ -87,7 +102,6 @@ public class GameStoreTest {
     @Test
     public void shouldFindPlayerWhenNegativeTime() {
 
-        GameStore store = new GameStore();
         store.addPlayTime("olya", 5);
         store.addPlayTime("kolya", 5);
         store.addPlayTime("sveta", -1);
@@ -96,11 +110,12 @@ public class GameStoreTest {
         assertEquals("katya", store.getMostPlayer());
     }
 
+    //по тз если игроков с лучшим временем несколько, то выводится любой из них
+
     //должен искать имя игрока, когда наибольшее время 1
     @Test
-    public void shouldFindPlayerWhenEqualTime() {
+    public void shouldFindPlayerWhenTime1() {
 
-        GameStore store = new GameStore();
         store.addPlayTime("olya", 0);
         store.addPlayTime("kolya", 0);
         store.addPlayTime("sveta", 0);
@@ -109,16 +124,43 @@ public class GameStoreTest {
         assertEquals("katya", store.getMostPlayer());
     }
 
+//    должен выводить null, когда игроки только установили игру, но не поиграли
+    @Test
+    public void shouldsFindPlayerWhenTime1() {
+
+        store.addPlayTime("olya", 0);
+        store.addPlayTime("kolya", 0);
+        store.addPlayTime("sveta", 0);
+
+
+        assertEquals(null, store.getMostPlayer());
+    }
+
     //должен суммировать общее количество времени всех игроков
     @Test
     public void shouldSumTime() {
 
-        GameStore store = new GameStore();
         store.addPlayTime("olya", 5);
         store.addPlayTime("kolya", 5);
         store.addPlayTime("sveta", 1);
         store.addPlayTime("katya", 3);
 
         assertEquals(14, store.getSumPlayedTime());
+    }
+
+//    должен показывать общее время, когда один игрок
+    @Test
+    public void shouldSumTimeWhen1Player() {
+
+        store.addPlayTime("olya", 5);
+
+        assertEquals(5, store.getSumPlayedTime());
+    }
+
+//    должен показывать сумму равную 0, когда нет игроков
+    @Test
+    public void shouldSumTimeWhenNotPlayer() {
+
+        assertEquals(0, store.getSumPlayedTime());
     }
 }
