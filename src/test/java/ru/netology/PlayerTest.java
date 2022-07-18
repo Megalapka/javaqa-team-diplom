@@ -32,10 +32,9 @@ public class PlayerTest {
     // Проверка создания игрока
     @Test
     public void shouldPlayerCreated() {
-       Player player = new Player("Dima");
-       assertEquals("Dima", player.getName());
+        Player player = new Player("Dima");
+        assertEquals("Dima", player.getName());
     }
-
 
 
     //суммирует игры, которые только установили, по жанру. Должент быть ноль
@@ -155,12 +154,11 @@ public class PlayerTest {
     }
 
 
-
     // Попытка сыграть в неустановленную игру
     @Test
     public void shouldExceptionForPlayWithoutInstallGame() {
 
-            assertThrows(RuntimeException.class, ()-> {
+        assertThrows(RuntimeException.class, () -> {
             player1.play(game1, 1);
         });
     }
