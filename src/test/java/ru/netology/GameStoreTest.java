@@ -94,7 +94,7 @@ public class GameStoreTest {
     @Test
     public void shouldFindPlayerWhenMapNull() {
 
-       assertEquals(null, store.getMostPlayer());
+        assertEquals(null, store.getMostPlayer());
     }
 
     //должен искать имя игрока, который играл в игры этого каталога больше всего,
@@ -124,7 +124,7 @@ public class GameStoreTest {
         assertEquals("katya", store.getMostPlayer());
     }
 
-//    должен выводить null, когда игроки только установили игру, но не поиграли
+    //    должен выводить null, когда игроки только установили игру, но не поиграли
     @Test
     public void shouldsFindPlayerWhenTime1() {
 
@@ -148,7 +148,7 @@ public class GameStoreTest {
         assertEquals(14, store.getSumPlayedTime());
     }
 
-//    должен показывать общее время, когда один игрок
+    //    должен показывать общее время, когда один игрок
     @Test
     public void shouldSumTimeWhen1Player() {
 
@@ -157,7 +157,7 @@ public class GameStoreTest {
         assertEquals(5, store.getSumPlayedTime());
     }
 
-//    должен показывать сумму равную 0, когда нет игроков
+    //    должен показывать сумму равную 0, когда нет игроков
     @Test
     public void shouldSumTimeWhenNotPlayer() {
 
