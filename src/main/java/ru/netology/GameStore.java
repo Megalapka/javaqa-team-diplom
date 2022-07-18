@@ -87,4 +87,9 @@ public class GameStore {
         }
         return sum;
     }
+
+    public int getPlayedTime(String playerName) {
+        return playedTime.get(playerName);
+    }
+
 }
