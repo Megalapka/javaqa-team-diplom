@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class GameStoreTest {
+
 
     Player player1 = new Player("Olya");
     Player player2 = new Player("kolya");
@@ -164,3 +162,4 @@ public class GameStoreTest {
         assertEquals(0, store.getSumPlayedTime());
     }
 }
+
