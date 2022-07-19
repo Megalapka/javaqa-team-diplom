@@ -108,7 +108,19 @@ public class GameStoreTest {
         assertEquals("katya", store.getMostPlayer());
     }
 
-    //по тз если игроков с лучшим временем несколько, то выводится любой из них
+    //если игроков с лучшим временем несколько, то выводится один из них
+    @Test
+    public void shouldFindPlayerWhenEqualsTime() {
+
+        store.addPlayTime("olya", 5);
+        store.addPlayTime("kolya", 5);
+        store.addPlayTime("sveta", 0);
+        store.addPlayTime("katya", 1);
+
+        String actual = store.getMostPlayer();
+
+        assertTrue(actual.equals("olya") || actual.equals("kolya"));
+    }
 
     //должен искать имя игрока, когда наибольшее время 1
     @Test
